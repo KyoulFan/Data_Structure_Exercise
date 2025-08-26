@@ -17,12 +17,29 @@ class BinaryTree {
    * the length of the shortest path from the root to a leaf. */
 
   minDepth() {
+    //DFS recursive
     if (!this.root) return 0;
     function minDepthHelper(node) {
       if (node.left === null && node.right === null) return 1;
       if (node.left === null) return minDepthHelper(node.right) + 1;
       if (node.left === null) return minDepthHelper(node.left) + 1;
+      return (
+        Math.min(minDepthHelper(node.left), minDepthHelper(node.right)) + 1
+      );
     }
+    return minDepthHelper(this.root);
+    //BFS iterative
+
+    function minBFS(node) {
+      let queue = [{ node: root, depth: 1 }];
+      while (queue.lenght) {
+        const { node, depth } = queue.shift();
+        if (!node.left && !node.right) return depth;
+        if (node.left) queue.push({ node: node.left, depth: depth + 1 });
+        if (node.right) queue.push({ node: node.right, depth: depth + 1 });
+      }
+    }
+    // return minBFS(this.root);
   }
 
   /** maxDepth(): return the maximum depth of the tree -- that is,
