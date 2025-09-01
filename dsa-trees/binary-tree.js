@@ -18,42 +18,47 @@ class BinaryTree {
 
   minDepth() {
     //DFS recursive
-    if (!this.root) return 0;
     function minDepthHelper(node) {
+      if (!this.root) return 0;
       if (node.left === null && node.right === null) return 1;
       if (node.left === null) return minDepthHelper(node.right) + 1;
-      if (node.left === null) return minDepthHelper(node.left) + 1;
+      if (node.right === null) return minDepthHelper(node.left) + 1;
       return (
         Math.min(minDepthHelper(node.left), minDepthHelper(node.right)) + 1
       );
     }
     return minDepthHelper(this.root);
-    //BFS iterative
-
-    function minBFS(node) {
-      let queue = [{ node: root, depth: 1 }];
-      while (queue.lenght) {
-        const { node, depth } = queue.shift();
-        if (!node.left && !node.right) return depth;
-        if (node.left) queue.push({ node: node.left, depth: depth + 1 });
-        if (node.right) queue.push({ node: node.right, depth: depth + 1 });
-      }
-    }
-    // return minBFS(this.root);
   }
+
+
+    //BFS iterative
+    // function minBFS() {
+    //   if (!this.root) return 0;
+    //   let queue = [{ node: root, depth: 1 }];
+    //   while (queue.length) {
+    //     const { node, depth } = queue.shift();
+    //     if (!node.left && !node.right) return depth;
+    //     if (node.left) queue.push({ node: node.left, depth: depth + 1 });
+    //     if (node.right) queue.push({ node: node.right, depth: depth + 1 });
+    //   }
+    // }
+    // return minBFS(this.root);
+  
 
   /** maxDepth(): return the maximum depth of the tree -- that is,
    * the length of the longest path from the root to a leaf. */
 
+  //Key: 1. recursion; 2. Max/Min comparision
   maxDepth() {
     let result = 0;
 
     function maxSumHelper(node) {
-      if (node === null) return 0;
-      const leftSum = maxSumHelper(node.left);
-      const rightSum = maxSumHelper(node.right);
-      result = Math.max(result, node.val + leftSum + rightSum);
-      return Math.max(0, leftSum + node.val, rightSum + node.val);
+      if (!this.root) return 0;
+      if (!this.root) return 0;
+      if (node.left === null && node.right === null) return 1;
+      if (node.left === null) return maxSumHelper(node.right) + 1;
+      if (node.right === null) return maxSumHelper(node.left) + 1;
+      return Math.max(maxSumHelper(node.left), maxSumHelper(node.right)) + 1;
     }
 
     maxSumHelper(this.root);
@@ -63,12 +68,35 @@ class BinaryTree {
   /** maxSum(): return the maximum sum you can obtain by traveling along a path in the tree.
    * The path doesn't need to start at the root, but you can't visit a node more than once. */
 
-  maxSum() {}
+  maxSum(){
+    let globalMax = -Infinity;
+    if (!node) return 0;
+    function maxSumHelper() {
+      const leftSum = maxSumHelper(node.left);
+      const rightSum = maxSumHelper(node.right);
+      const fullThrough = node.val + leftSum + rightSum;
+      globalMax = Math.max(globalMax, fullThrough);
+      //recursion go to the "very deep", start to calculate
+      return node.val + Math.max(leftSum, rightSum);
+    }
+    return globalMax;
+  }
 
   /** nextLarger(lowerBound): return the smallest value in the tree
    * which is larger than lowerBound. Return null if no such value exists. */
 
-  nextLarger(lowerBound) {}
+  nextLarger(lowerBound) {
+    if (!this.root) return null;
+    let best = Infinity;
+    dfsNextLarger(node){
+      if(node.val > lowerBound && node.val < best) best = node.val;
+      dfsNextLarger(node.left);
+      dfsNextLarger(node.right);
+    }
+    dfsNextLarger(this.root);
+    return best === Infinity?null:best;
+    }
+  
 
   /** Further study!
    * areCousins(node1, node2): determine whether two nodes are cousins
@@ -91,6 +119,6 @@ class BinaryTree {
    * of two nodes in a binary tree. */
 
   lowestCommonAncestor(node1, node2) {}
-}
+  }
 
 module.exports = { BinaryTree, BinaryTreeNode };
