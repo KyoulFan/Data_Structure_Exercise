@@ -16,15 +16,28 @@ class BinarySearchTree {
 
   insert(val) {
     if (this.root === null) {
-      this.root = newNode;
+      this.root = new Node(val);
       return this;
     }
     let current = this.root;
     while (true) {
       if (val < current.val) {
-        if(current.left === null){
-          current.left=newNode
+        if (current.left === null) {
+          current.left = new Node(val);
+          return this;
+        } else {
+          current = current.left;
         }
+      } else if (val > current.val) {
+        if (current.right === null) {
+          current.right = new Node(val);
+          return this;
+        } else {
+          current = current.right;
+        }
+      } else {
+        // value already exists in the tree, do nothing
+        return this;
       }
     }
   }
