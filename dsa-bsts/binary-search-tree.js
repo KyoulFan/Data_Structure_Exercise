@@ -71,6 +71,7 @@ class BinarySearchTree {
 
   find(val) {
     let current = this.root;
+    
     while (current) {
       if (val == current.val) {
         return current;
@@ -86,7 +87,14 @@ class BinarySearchTree {
   /** findRecursively(val): search the tree for a node with value val.
    * return the node, if found; else undefined. Uses recursion. */
 
-  findRecursively(val) {}
+  findRecursively(val, current = this.root) {
+    if(this.root === null) return undefined;
+
+    if(val < current.val){
+      if(current.left === null) return undefined;
+      return this.
+    }
+  }
 
   /** dfsPreOrder(): Traverse the array using pre-order DFS.
    * Return an array of visited nodes. */
