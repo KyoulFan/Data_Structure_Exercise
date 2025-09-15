@@ -92,8 +92,12 @@ class BinarySearchTree {
 
     if(val < current.val){
       if(current.left === null) return undefined;
-      return this.
+      return this.findRecursively(val, current.left);
+    }else if(val > current.val){
+      if(current.right === null) return undefined;
+      return this.findRecursively(val, current.right);
     }
+    return current;
   }
 
   /** dfsPreOrder(): Traverse the array using pre-order DFS.
