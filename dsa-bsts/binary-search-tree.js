@@ -71,7 +71,7 @@ class BinarySearchTree {
 
   find(val) {
     let current = this.root;
-    
+
     while (current) {
       if (val == current.val) {
         return current;
@@ -88,13 +88,13 @@ class BinarySearchTree {
    * return the node, if found; else undefined. Uses recursion. */
 
   findRecursively(val, current = this.root) {
-    if(this.root === null) return undefined;
+    if (this.root === null) return undefined;
 
-    if(val < current.val){
-      if(current.left === null) return undefined;
+    if (val < current.val) {
+      if (current.left === null) return undefined;
       return this.findRecursively(val, current.left);
-    }else if(val > current.val){
-      if(current.right === null) return undefined;
+    } else if (val > current.val) {
+      if (current.right === null) return undefined;
       return this.findRecursively(val, current.right);
     }
     return current;
@@ -103,28 +103,112 @@ class BinarySearchTree {
   /** dfsPreOrder(): Traverse the array using pre-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPreOrder() {}
+  dfsPreOrder() {
+    let data = [];
+    let current = this.root;
+
+    function traverse(node) {
+      data.push(node.val);
+      node.left && traverse(node.left);
+      node.right && traverse(node.right);
+    }
+
+    traverse(current);
+    return data;
+  }
 
   /** dfsInOrder(): Traverse the array using in-order DFS.
    * Return an array of visited nodes. */
 
-  dfsInOrder() {}
+  dfsInOrder() {
+    let data = [];
+    let current = this.root;
+
+    function traverse(node) {
+      node.left && traverse(node.left);
+      data.push(node.val);
+      node.right && traverse(node.right);
+    }
+
+    traverse(current);
+    return data;
+  }
 
   /** dfsPostOrder(): Traverse the array using post-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPostOrder() {}
+  dfsPostOrder() {
+    let data = [];
+    let current = this.root;
+
+    function traverse(node) {
+      node.left && traverse(node.left);
+      node.right && traverse(node.right);
+      data.push(node.val);
+    }
+    traverse(current);
+    return data;
+  }
 
   /** bfs(): Traverse the array using BFS.
    * Return an array of visited nodes. */
 
-  bfs() {}
+  bfs() {
+    let node = this.root;
+    let queue = [];
+    let data = [];
+
+    queue.push(node);
+
+    while (queue.length) {
+      node = queue.shift();
+      data.push(node.val);
+      if (node.left) {
+        queue.push(node.left);
+      }
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+    return data;
+  }
 
   /** Further Study!
    * remove(val): Removes a node in the BST with the value val.
    * Returns the removed node. */
 
-  remove(val) {}
+  remove(val) {
+    let nodeToRemove = this.root;
+    let parent;
+
+    while (nodeToRemove.val !== val) {
+      parent = nodeToRemove;
+      if (val < nodeToRemove.val) {
+        nodeToRemove = nodeToRemove.left;
+      } else {
+        nodeToRemove = nodeToRemove.right;
+      }
+
+      //Do not delete root node
+      if (nodeToRemove !== this.root) {
+        if (nodeToRemove.left === null && nodeToRemove.right === null) {
+          // handle leaf node removal here
+          //let the parent node point to null
+          if (parent.left === nodeToRemove) {
+            parent.left = null;
+          } else {
+            parent.right = null;
+          }
+        } else if (nodeToRemove.left !== null && nodeToRemove.right !== null) {
+          let rightParent = nodeToRemove;
+          let right = nodeToRemove.right;
+          if(right.left===null){
+            right.left = nodeToRemove.left
+          }
+        }
+      }
+    }
+  }
 
   /** Further Study!
    * isBalanced(): Returns true if the BST is balanced, false otherwise. */
